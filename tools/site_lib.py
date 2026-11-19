@@ -18,7 +18,6 @@ EMAIL = 'info@rosoen.com'
 
 NAV = [
     ('services.html', 'Services'),
-    ('writers.html', 'Writers'),
     ('blog/index.html', 'Blog'),
     ('payments.html', 'Payments'),
     ('contact.html', 'Contact'),
@@ -28,7 +27,7 @@ PAGE_LINKS = NAV + [('post-project.html', 'Post a project')]
 
 SCRIPT_FILES = {
     'config': 'assets/js/config.js',
-    'writers': 'assets/js/writers.js',
+    'data': 'assets/js/site-data.js',
     'chat': 'assets/js/chat.js',
     'main': 'assets/js/main.js',
 }
@@ -45,8 +44,13 @@ def write(relpath, content):
         f.write(content)
 
 
+def page_url(path):
+    """Public address for a page. The homepage is the bare domain, not /index.html."""
+    return BASE + '/' if path == 'index.html' else f'{BASE}/{path}'
+
+
 def head(title, description, path, root='', schema=None, og_type='website'):
-    url = f'{BASE}/{path}'
+    url = page_url(path)
     ld = ''
     for item in (schema or []):
         ld += '\n  <script type="application/ld+json">' + json.dumps(item, ensure_ascii=False) + '</script>'
@@ -117,7 +121,7 @@ def footer(root):
 
 
 def page(title, description, path, body, current, root='', schema=None,
-         og_type='website', scripts=('config', 'chat', 'main')):
+         og_type='website', scripts=('config', 'data', 'chat', 'main')):
     tags = '\n'.join(f'  <script src="{root}{SCRIPT_FILES[s]}"></script>' for s in scripts)
     return (head(title, description, path, root, schema, og_type)
             + '\n<body>\n  <a class="skip-link" href="#main">Skip to content</a>\n\n'
@@ -197,7 +201,7 @@ def sitemap_xml(entries):
     rows = []
     for path, priority in entries:
         rows.append(
-            f'  <url>\n    <loc>{BASE}/{path}</loc>\n    <lastmod>{TODAY}</lastmod>\n'
+            f'  <url>\n    <loc>{page_url(path)}</loc>\n    <lastmod>{TODAY}</lastmod>\n'
             f'    <priority>{priority}</priority>\n  </url>')
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'

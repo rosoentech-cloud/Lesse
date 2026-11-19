@@ -798,3 +798,6 @@ details.faq p { margin: 0.6rem 0 0; color: var(--muted); }
 .pay-wordmark { font-family: var(--font-head); font-size: 1.3rem; font-weight: 700; color: var(--ink); }
 .pay-badge .pay-logo, .pay-badge .pay-wordmark { margin-bottom: 0.35rem; }
 .pay-card .pay-logo { height: 36px; }
+
+/* ---- Links inside chat replies ---- */
+.chat-log .msg a { color: inherit; font-weight: 600; text-decoration: underline; }

@@ -14,6 +14,7 @@ from site_lib import BASE, TODAY, page, sitemap_xml, write  # noqa: E402
 from svg_assets import build_assets  # noqa: E402
 from pages import SERVICES, all_pages  # noqa: E402
 from blog import article, index, load_posts  # noqa: E402
+from knowledge import write_knowledge  # noqa: E402
 
 
 def priority_for(path):
@@ -23,7 +24,7 @@ def priority_for(path):
         return '0.9'
     if path.startswith('blog/'):
         return '0.7'
-    if path in ('writers.html', 'payments.html') or path.endswith('.html') and path[:-5] in {s['slug'] for s in SERVICES}:
+    if path == 'payments.html' or path.endswith('.html') and path[:-5] in {s['slug'] for s in SERVICES}:
         return '0.8'
     return '0.5'
 
@@ -37,7 +38,7 @@ def main():
     for pg in all_pages(posts):
         write(pg['path'], page(pg['title'], pg['desc'], pg['path'], pg['body'], pg['current'],
                                root='', schema=pg.get('schema'),
-                               scripts=pg.get('scripts', ('config', 'chat', 'main'))))
+                               scripts=pg.get('scripts', ('config', 'data', 'chat', 'main'))))
         entries.append(pg['path'])
 
     write('blog/index.html', index(posts))
@@ -46,6 +47,7 @@ def main():
         write(f'blog/{slug}.html', article(p, posts))
         entries.append(f'blog/{slug}.html')
 
+    write_knowledge(posts)
     write('sitemap.xml', sitemap_xml([(path, priority_for(path)) for path in entries]))
     write('robots.txt', f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
     write('CNAME', 'lesse.rosoen.com\n')

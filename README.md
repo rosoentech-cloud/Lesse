@@ -1,56 +1,91 @@
 # Lesse
 
-A website for a writing, research, and editing service: service pages, six service landing pages, a writer listing, a blog, a contact form, a brief form, payment information, and an AI chat box. It is a static site hosted on GitHub Pages at **https://lesse.rosoen.com**.
+A website for a writing, research, and editing service, hosted on GitHub Pages at https://lesse.rosoen.com.
+
+It has a home page, a services page with six service landing pages, a blog with 30 articles, a contact page, a brief form, a payments page, policies, and a chat box. The chat box answers visitors using the site's own content.
 
 ## What is in the folder
 
 | Path | What it is |
 | --- | --- |
-| `index.html`, `services.html`, `writers.html`, `contact.html`, `post-project.html`, `policies.html`, `payments.html` | Main pages (generated) |
+| `index.html`, `services.html`, `contact.html`, `post-project.html`, `payments.html`, `policies.html` | Main pages (generated) |
 | `research-support.html`, `editing-proofreading.html`, `citations-formatting.html`, `proposals-grants.html`, `business-copy.html`, `resumes-cvs.html` | Service landing pages (generated) |
 | `blog/` | Blog index and 30 articles (generated) |
-| `tools/build.py` | Generates every page, the blog, `sitemap.xml`, and `robots.txt` |
-| `tools/pages.py` | Page text and the service list |
+| `tools/build.py` | Builds every page, the blog, `sitemap.xml`, `robots.txt`, and the assistant's knowledge file |
+| `tools/pages.py` | Text and structure of the main pages and the service list |
 | `tools/posts/` | Blog articles as Markdown, one file each |
-| `tools/site_lib.py`, `tools/blog.py`, `tools/svg_assets.py` | Shared layout, blog builder, and images |
-| `assets/js/config.js` | Contact details, writer availability, and the AI chat address |
-| `assets/js/chat.js` | Chat box |
-| `assets/js/writers.js` | Writer listing |
+| `tools/site_lib.py`, `tools/blog.py`, `tools/knowledge.py`, `tools/svg_assets.py` | Shared layout, blog builder, assistant knowledge, and images |
+| `assets/js/config.js` | Contact details, availability, and the assistant's address |
+| `assets/js/chat.js` | Chat box and how it answers |
+| `assets/js/site-data.js` | Generated from the site's text. The chat box searches it when no AI endpoint is set |
 | `assets/js/main.js` | Menu, form submission, and small shared behaviour |
 | `assets/css/styles.css` | All styles |
-| `assets/img/` | Student illustration, favicon, avatars (SVG) |
-| `ai-worker/worker.js` | Connects the chat box to Claude (runs on Cloudflare, not on the site) |
+| `assets/img/` | Student illustration, favicon, avatar, and the payment logo folder |
+| `ai-worker/worker.js` | Connects the chat box to Claude. Runs on Cloudflare, not on the site |
+| `ai-worker/site-knowledge.js` | Generated from the site's pages. The assistant answers from this file |
 | `sitemap.xml`, `robots.txt`, `CNAME` | For search engines and the custom domain |
 
-## Editing pages
+## Editing the site
 
-Most pages are generated, so do not edit the HTML files directly. Change `tools/pages.py` for page text, or `assets/js/*.js` for the writer list, chat, and settings. Then rebuild:
+Most pages are generated, so change the source and rebuild:
+
+- Page text and the service list: `tools/pages.py`
+- Blog articles: Markdown files in `tools/posts/`
+- Contact details and the assistant's address: `assets/js/config.js` and `tools/site_lib.py`
+
+Then run:
 
 ```bash
 python3 tools/build.py
 ```
 
-This needs Python 3 and no other packages.
+This needs Python 3 and nothing else.
 
 ## Adding a blog article
 
-1. Create a file in `tools/posts/` named with a number and a slug, for example `31-cover-letter-tips.md`.
-2. Start the file with this header, then the article in Markdown (`##` for headings, `-` for lists):
+1. Create a file in `tools/posts/` with a number and a slug, for example `31-cover-letter-tips.md`.
+2. Start it with this header, then write the article in Markdown (`##` for headings, `-` for lists):
 
    ```
    ---
    title: Your Article Title
-   description: One or two sentences for search results, about 150 characters.
+   description: One or two sentences for search results.
    category: Writing
    date: 2026-11-20
    ---
    ```
 
-3. Run `python3 tools/build.py`. The article appears on the blog, in the sitemap, and in the "Keep reading" links.
+3. Run `python3 tools/build.py`.
 
-## Preview locally
+## Chat box and the AI assistant
 
-Open `index.html` in a browser. The blog and service pages work the same way. Nothing needs to be installed beyond Python for rebuilding.
+The chat box appears on every page and always shows "Active now".
+
+The chat box answers only from the site's own content. Each build, `tools/knowledge.py` reads the built pages and writes two files from them:
+
+- `assets/js/site-data.js`: short pieces of the site text. Until the AI is deployed, the chat box finds the piece that best matches a question, shows it, and links to its page.
+- `ai-worker/site-knowledge.js`: the full text the worker sends to Claude with each question. Once deployed, Claude writes the answers from it. Blog articles are included by title and summary only.
+
+If a question isn't covered, the chat says so and points visitors to WhatsApp or email. Run the build again after any change so both files stay current.
+
+To make it live:
+
+1. Create a Cloudflare account and install Wrangler: `npm install -g wrangler`.
+2. From the `ai-worker` folder, run `wrangler deploy worker.js --name lesse-chat`.
+3. Store your Anthropic API key as a secret. Wrangler asks for the value. Don't paste it into a chat or a file: `wrangler secret put ANTHROPIC_API_KEY`
+4. Copy the worker's URL into `aiEndpoint` in `assets/js/config.js`, then run `python3 tools/build.py`.
+
+Until the worker is deployed, the chat uses the site-text search described above. It can't write new answers, so a question the site doesn't cover gets a pointer to WhatsApp.
+
+The assistant is an AI and can make mistakes. Read a sample of its answers from time to time.
+
+## Forms and email delivery
+
+The brief form (`post-project.html`) and the contact form (`contact.html`) send to **info@rosoen.com** through [FormSubmit](https://formsubmit.co), which needs no account.
+
+- **First-time setup:** the first submission sends an activation link to info@rosoen.com. Click it, or submissions are held. Then submit a test form.
+- **Replies:** the visitor's email address is in the form, so you can reply from your inbox.
+- **Third party:** submissions pass through FormSubmit. See formsubmit.co for its limits and terms.
 
 ## Publish to GitHub Pages
 
@@ -65,61 +100,33 @@ Open `index.html` in a browser. The blog and service pages work the same way. No
    git push -u origin main
    ```
 
-3. On GitHub, go to **Settings → Pages**. Set **Source** to *Deploy from a branch*, branch `main`, folder `/ (root)`, and save.
-4. Under **Custom domain**, enter `lesse.rosoen.com` and save. The `CNAME` file in this folder already contains that name.
-5. In your DNS settings for rosoen.com, add a CNAME record: host `lesse`, pointing to `YOUR-USERNAME.github.io`. Wait for DNS to update, then tick **Enforce HTTPS** in the Pages settings.
+3. On GitHub, go to **Settings → Pages**. Set **Source** to *Deploy from a branch*, branch `main`, folder `/ (root)`.
+4. Under **Custom domain**, enter `lesse.rosoen.com`. The `CNAME` file already contains it.
+5. In your DNS settings for rosoen.com, add a CNAME record: host `lesse`, pointing to `YOUR-USERNAME.github.io`. When DNS has updated, tick **Enforce HTTPS**.
 
 ## Search Console
 
-1. Go to [Google Search Console](https://search.google.com/search-console) and add the property `https://lesse.rosoen.com`. Verify it using the DNS or HTML method Google offers.
-2. Open **Sitemaps**, enter `sitemap.xml`, and submit. The file lists all 44 pages.
-3. Use **URL inspection** on the home page and one blog article to request indexing.
+1. Add `https://lesse.rosoen.com` as a property and verify it.
+2. Under **Sitemaps**, submit `sitemap.xml`. The file lists every page on the site.
+3. Request indexing for the home page and a few blog articles.
 
-The sitemap is rebuilt each time you run `tools/build.py`. Submit it again if you add many articles.
-
-## Chat box and the AI assistant
-
-The chat box appears in the bottom corner of every page. It shows **Active now** and answers visitor questions with Claude. A WhatsApp button is included for a person.
-
-The AI needs a small server, called a worker, because an API key must never sit in public files. Setup is in the comments at the top of `ai-worker/worker.js`:
-
-1. Deploy the worker with Cloudflare Wrangler.
-2. Store your Anthropic API key as a secret named `ANTHROPIC_API_KEY`.
-3. Copy the worker's URL into `aiEndpoint` in `assets/js/config.js`, then run `python3 tools/build.py`.
-
-Until the worker is deployed, the chat box says the assistant is not connected yet and points to WhatsApp.
-
-Check the assistant's answers before you rely on it. It follows the rules in `worker.js`, but it is an AI and can make mistakes. Keep the system prompt in step with your actual services and policies.
-
-## Writers
-
-Writers are listed in `assets/js/writers.js`. Lesse is the one live profile. The other nine slots say "Writer profile coming soon" until you add real writers. To add a writer, replace a reserved slot with an object that has `name`, `headline`, `categories` (any of `research`, `editing`, `formatting`, `proposals`, `business`, `career`), `bio`, `avatar` (a file in `assets/img/`), and `live: true`. Only list people who have agreed to appear on the site.
-
-## Forms and email delivery
-
-The brief form (`post-project.html`) and the contact form (`contact.html`) send to **info@rosoen.com** through [FormSubmit](https://formsubmit.co), a free service that needs no account.
-
-- **First-time setup:** the first submission sends an activation link to info@rosoen.com. Click it. Until you do, submissions are held and not delivered. Then submit a test form yourself.
-- **Replies:** the student's email address is in the form, so you can reply from your inbox.
-- **Third party:** submissions pass through FormSubmit's servers. Check formsubmit.co for limits and terms.
+After adding many articles, run the build again and resubmit the sitemap.
 
 ## Before launch
 
 - Activate FormSubmit (see above).
-- Set the real legal business name in the footer copyright line (`tools/site_lib.py`, the `footer` function).
-- Connect the payment methods listed on the Payments page before you advertise them. The site lists PayPal, Visa, Remitly, and Zelle, so only keep the ones you can actually accept.
-- **Payment logos:** add the official files to `assets/img/payments/` named `paypal`, `visa`, `remitly`, and `zelle` (SVG or PNG), then run `python3 tools/build.py`. Until then the names show as text. Use each logo only as that company's brand guidelines allow.
+- Put the real legal business name in the footer copyright line (`tools/site_lib.py`, `footer` function).
+- Add the payment logos to `assets/img/payments/` as `paypal`, `visa`, `remitly`, and `zelle` (SVG or PNG), then rebuild. Until then the names show as text. Use each logo only as that company's brand guidelines allow. Only list payment methods you can accept.
 - Have someone qualified review the policies, especially payments, refunds, and privacy, before you take payment.
-- Deploy the AI worker and set `aiEndpoint`, or the chat box will only point to WhatsApp.
+- Deploy the assistant and set `aiEndpoint`.
 
-## What the static site does not do
+## Not included in the static site
 
-These features need a backend or a third-party service before they work:
+These need a backend or a third-party service:
 
-- Accounts and log-in for clients and writers
-- Writer applications and identity or portfolio checks
+- Accounts and log-in
 - Payment processing, milestone escrow, and refunds
-- Live chat with a person inside the website (the chat box links to WhatsApp for that)
+- Live chat with a person inside the website (the chat links to WhatsApp for that)
 - File uploads on the forms
 
-Options include Stripe for payments, Supabase or Firebase for accounts and data, and Tawk.to for live chat.
+Options include Stripe for payments and Supabase or Firebase for accounts.

@@ -11,18 +11,19 @@
 //   4. Optional: wrangler secret put ALLOWED_ORIGIN and enter https://lesse.rosoen.com
 //   5. Copy the worker URL it prints into assets/js/config.js as aiEndpoint.
 
-const SYSTEM_PROMPT = `You are the website assistant for Lesse, a service that helps students and professionals with research support, editing and proofreading, citation formatting, proposals and grants, business copy, and resumes and CVs.
+import { SITE_KNOWLEDGE } from './site-knowledge.js';
 
-You are an AI assistant. If someone asks whether you are a person, say you are an AI assistant for Lesse.
+const SYSTEM_PROMPT = `You are the chat assistant on the Lesse website. Visitors ask about Lesse's services, how projects work, payments, policies, and contact details.
 
-Help visitors understand the services, how a project works (a written brief, a fixed quote, drafts reviewed in stages, payment per approved milestone), and where to find the policies at https://lesse.rosoen.com/policies.html.
+Answer ONLY from the SITE INFORMATION below. Do not use outside knowledge about prices, deadlines, writers, or other companies.
+- If the site information does not cover the question, say you don't have that detail, and point the visitor to WhatsApp (https://wa.me/17029633767) or email info@rosoen.com.
+- Give prices or turnaround times only when the site information states them. Otherwise say that each project gets a written, fixed quote after the brief is posted.
+- Do not write essays, assignments, or other work for a student to submit. You can explain what Lesse offers, such as research organization, editing, formatting, feedback, and career documents.
+- If asked whether you are a person, say you are Lesse's AI assistant.
+- Keep answers short (under 120 words), plain, and friendly. When it helps, link to the relevant page, using the URLs in the site information.
 
-Rules:
-- Do not write essays, assignments, or other work for a student to submit as their own. Explain what Lesse does offer: research organization, editing, formatting, feedback, and career documents.
-- Do not quote specific prices. Writers set their own rates and quote each project after a brief.
-- Do not promise a particular writer's availability, and do not invent details about writers, credentials, or past work.
-- For quotes, bookings, or anything you cannot answer, point the visitor to the WhatsApp button on the site or to info@rosoen.com.
-- Keep answers short (under 120 words) and in plain language.`;
+SITE INFORMATION
+`;
 
 export default {
   async fetch(request, env) {
@@ -69,7 +70,7 @@ export default {
       body: JSON.stringify({
         model: env.MODEL || 'claude-haiku-5-5',
         max_tokens: 400,
-        system: SYSTEM_PROMPT,
+        system: [{ type: 'text', text: SYSTEM_PROMPT + SITE_KNOWLEDGE, cache_control: { type: 'ephemeral' } }],
         messages,
       }),
     });

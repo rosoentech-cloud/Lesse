@@ -215,7 +215,7 @@ def home(posts):
           <p class="lead">Post a brief, compare fixed quotes from writers you can review, and approve each milestone before you pay.</p>
           <div class="actions">
             <a class="btn" href="post-project.html">Post a project</a>
-            <a class="btn btn-ghost" href="writers.html">Browse writers</a>
+            <a class="btn btn-ghost" href="services.html">See our services</a>
           </div>
         </div>
         <aside class="hero-card" aria-label="How a project runs">
@@ -241,20 +241,6 @@ def home(posts):
         <div class="grid-4">
 {steps_cards}
         </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container split">
-        <div>
-          <h2>Who writes here</h2>
-          <p>Writers create profiles with their background and subject areas. Writers set their own rates. Every project gets a written scope before work begins, so both sides know what is being delivered.</p>
-        </div>
-        <ul class="checks">
-          <li>Profiles that show a relevant writing sample</li>
-          <li>Scope, deadlines, and revision limits in every quote</li>
-          <li>Clear rules on AI assistance and attribution</li>
-        </ul>
       </div>
     </section>
 
@@ -407,32 +393,6 @@ def service_page(s, posts):
     ]
     return dict(path=f'{s["slug"]}.html', title=s['title'], desc=s['desc'], body=body,
                 current='services.html', schema=schema)
-
-
-def writers():
-    body = f'''    <section class="page-intro">
-      <div class="container">
-        <p class="eyebrow">Writers</p>
-        <h1>Find a writer for your brief</h1>
-        <p class="lead">Filter by specialty. Each profile shows its specialty and availability. Rates are set by each writer and confirmed in a written quote.</p>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="filter-bar">
-          <div class="filters" id="filters" role="group" aria-label="Filter writers by specialty"></div>
-          <p class="muted" id="writer-count" aria-live="polite"></p>
-        </div>
-        <div class="writer-grid" id="writer-grid"></div>
-      </div>
-    </section>
-
-{cta("Don't see the right fit?", 'Post a project', text='Post your brief, and writers with matching skills can reply to it.')}'''
-    return dict(path='writers.html',
-                title='Writers | Lesse Research and Editing Help',
-                desc='Meet the writers and editors on Lesse. Filter by specialty, chat with us, and get a fixed quote before any work begins.',
-                body=body, current='writers.html', scripts=('config', 'writers', 'chat', 'main'))
 
 
 def contact():
@@ -683,6 +643,6 @@ def payments():
 
 
 def all_pages(posts):
-    pages = [home(posts), services_hub(), writers(), contact(), post_project(), policies(), payments()]
+    pages = [home(posts), services_hub(), contact(), post_project(), policies(), payments()]
     pages += [service_page(s, posts) for s in SERVICES]
     return pages
