@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" role="img" aria-labelledby="t d">
+  <title id="t">Student learning at a desk</title>
+  <desc id="d">A student works on a laptop at a desk with notes and a plant nearby.</desc>
+  <rect width="480" height="320" rx="18" fill="#f3ebe2"/>
+  <circle cx="400" cy="70" r="36" fill="#f2c94c" opacity="0.35"/>
+  <rect x="40" y="270" width="400" height="6" fill="#d9cfbf"/>
+  <rect x="70" y="236" width="300" height="14" rx="3" fill="#8f3f1d"/>
+  <rect x="90" y="250" width="10" height="20" fill="#8f3f1d"/>
+  <rect x="340" y="250" width="10" height="20" fill="#8f3f1d"/>
+  <circle cx="190" cy="92" r="30" fill="#d9a77c"/>
+  <path d="M160 88 Q162 58 192 58 Q222 58 222 88 Q210 72 190 72 Q172 72 160 88 Z" fill="#2b2320"/>
+  <path d="M132 236 Q128 160 170 150 Q212 150 218 236 Z" fill="#b4532a"/>
+  <path d="M206 176 Q238 180 252 206" stroke="#b4532a" stroke-width="18" fill="none" stroke-linecap="round"/>
+  <circle cx="256" cy="208" r="9" fill="#d9a77c"/>
+  <rect x="268" y="134" width="120" height="88" rx="6" fill="#1f2430"/>
+  <rect x="276" y="142" width="104" height="72" rx="3" fill="#3b4456"/>
+  <rect x="284" y="152" width="60" height="6" rx="3" fill="#f2c94c"/>
+  <rect x="284" y="166" width="88" height="5" rx="2" fill="#9aa6bd"/>
+  <rect x="284" y="178" width="72" height="5" rx="2" fill="#9aa6bd"/>
+  <rect x="258" y="222" width="144" height="10" rx="4" fill="#c9c2b5"/>
+  <path d="M96 222 L150 210 L150 232 L96 236 Z" fill="#ffffff"/>
+  <path d="M150 210 L204 222 L204 236 L150 232 Z" fill="#f1ece3"/>
+  <rect x="96" y="222" width="54" height="3" fill="#b4532a"/>
+  <rect x="405" y="176" width="34" height="60" rx="5" fill="#b4532a"/>
+  <ellipse cx="410" cy="164" rx="18" ry="22" fill="#3f7d5a"/>
+  <ellipse cx="432" cy="160" rx="14" ry="20" fill="#2f6a4a"/>
+  <path d="M190 32 L190 22 M176 40 L168 34 M204 40 L212 34" stroke="#c99a2e" stroke-width="3" stroke-linecap="round"/>
+</svg>

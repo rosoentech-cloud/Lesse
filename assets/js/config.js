@@ -1,9 +1,8 @@
-// Site settings. Edit this file to change availability and contact details.
+// Site settings. Edit this file to change contact details and the chat assistant.
 window.SITE_CONFIG = {
   name: 'Lesse',
 
-  // Set to false when you are away. The chat box then shows that you are away
-  // and visitors can still leave a message.
+  // Whether the Lesse writer card shows "Available now".
   available: true,
 
   // WhatsApp number in international format, digits only, no + or spaces.
@@ -12,5 +11,8 @@ window.SITE_CONFIG = {
   // How the phone number is displayed on the site.
   phoneDisplay: '(702) 963-3767',
 
-  email: 'info@rosoen.com'
+  email: 'info@rosoen.com',
+
+  // URL of the deployed chat worker (see ai-worker/worker.js). Leave empty until it is deployed.
+  aiEndpoint: ''
 };

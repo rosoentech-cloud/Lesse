@@ -3,8 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact | Lesse</title>
-  <meta name="description" content="Send a question or describe what you need. Your message goes straight to our inbox, and we reply to the email you give us.">
+  <title>Contact Lesse | WhatsApp, Phone and Email</title>
+  <meta name="description" content="Contact Lesse by WhatsApp, phone, or email, or send a message through the form. We reply to the email address you give us.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://lesse.rosoen.com/contact.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Lesse">
+  <meta property="og:title" content="Contact Lesse | WhatsApp, Phone and Email">
+  <meta property="og:description" content="Contact Lesse by WhatsApp, phone, or email, or send a message through the form. We reply to the email address you give us.">
+  <meta property="og:url" content="https://lesse.rosoen.com/contact.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Contact Lesse | WhatsApp, Phone and Email">
+  <meta name="twitter:description" content="Contact Lesse by WhatsApp, phone, or email, or send a message through the form. We reply to the email address you give us.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
@@ -17,6 +28,8 @@
       <nav id="site-nav" class="site-nav" aria-label="Main">
         <a href="services.html">Services</a>
         <a href="writers.html">Writers</a>
+        <a href="blog/index.html">Blog</a>
+        <a href="payments.html">Payments</a>
         <a href="contact.html" aria-current="page">Contact</a>
         <a href="policies.html">Policies</a>
         <a href="post-project.html" class="btn btn-small">Post a project</a>
@@ -29,14 +42,13 @@
       <div class="container">
         <p class="eyebrow">Contact</p>
         <h1>Send us a message</h1>
-        <p class="lead">Ask a question or describe what you need. Your message comes straight to our inbox, and we reply to the email address you give us.</p>
       </div>
     </section>
 
     <section class="section">
       <div class="container split">
         <form class="brief-form" action="https://formsubmit.co/ajax/info@rosoen.com" method="POST" data-ajax-form data-status="contact-status">
-          <input type="hidden" name="_subject" value="New project brief from the Lesse website">
+          <input type="hidden" name="_subject" value="New message from the Lesse website">
 
           <p class="form-sent" id="contact-status" hidden>Thanks. Your message has been received, and we'll reply by email.</p>
 
@@ -79,14 +91,14 @@
           <button class="btn" type="submit">Send message</button>
         </form>
 
-        <aside class="checks">
-          <h3>Prefer to talk?</h3>
+        <aside class="card contact-card">
+          <h2>Prefer to talk?</h2>
           <ul class="contact-list">
             <li>Phone: <a href="tel:+17029633767">(702) 963-3767</a></li>
-            <li>WhatsApp: <a href="https://wa.me/17029633767" target="_blank" rel="noopener">Message us on WhatsApp</a></li>
             <li>Email: <a href="mailto:info@rosoen.com">info@rosoen.com</a></li>
           </ul>
-          <p class="muted" style="margin-top:1rem;">You can also use the chat button in the corner of any page.</p>
+          <a class="btn btn-whatsapp" href="https://wa.me/17029633767" target="_blank" rel="noopener">WhatsApp</a>
+          <p class="muted">You can also use the chat button in the corner of any page.</p>
         </aside>
       </div>
     </section>
@@ -94,25 +106,32 @@
 
   <footer class="site-footer">
     <div class="container footer-grid">
-      <div>
-        <p class="brand">Lesse</p>
-        <p class="muted">Research, writing and editing help from independent professionals.</p>
+      <div class="footer-col">
+        <h3>Contact</h3>
         <ul class="contact-list">
-          <li>Phone: <a href="tel:+17029633767">(702) 963-3767</a></li>
-          <li>WhatsApp: <a href="https://wa.me/17029633767" target="_blank" rel="noopener">Message us on WhatsApp</a></li>
-          <li>Email: <a href="mailto:info@rosoen.com">info@rosoen.com</a></li>
+          <li><a href="tel:+17029633767">(702) 963-3767</a></li>
+          <li><a href="mailto:info@rosoen.com">info@rosoen.com</a></li>
         </ul>
+        <a class="btn btn-small btn-whatsapp" href="https://wa.me/17029633767" target="_blank" rel="noopener">WhatsApp</a>
       </div>
-      <nav aria-label="Footer">
+      <nav class="footer-col" aria-label="Footer">
+        <h3>Pages</h3>
         <a href="services.html">Services</a>
         <a href="writers.html">Writers</a>
-        <a href="post-project.html">Post a project</a>
+        <a href="blog/index.html">Blog</a>
+        <a href="payments.html">Payments</a>
         <a href="contact.html">Contact</a>
         <a href="policies.html">Policies</a>
+        <a href="post-project.html">Post a project</a>
       </nav>
+      <div class="footer-col">
+        <h3>Lesse</h3>
+        <p class="brand">Lesse</p>
+        <p class="muted">Research, writing and editing help from independent professionals.</p>
+      </div>
     </div>
     <div class="container copyright">
-      <p>&copy; <span data-year></span> Lesse. All rights reserved.</p>
+      <p>&copy; 2026 Lesse. All rights reserved.</p>
     </div>
   </footer>
 

@@ -1,19 +1,10 @@
 // Writer listing: data and rendering.
-// Add one object per writer. Set available to false for anyone not taking chats right now.
+// Live writers have live: true. Reserved slots show "coming soon" until a real writer is added.
+// To add a writer, replace a reserved slot with: name, headline, categories, bio, avatar, live: true.
 (function () {
   'use strict';
 
   var cfg = window.SITE_CONFIG || {};
-
-  var WRITERS = [
-    {
-      name: 'Lesse',
-      headline: 'Writing, research and editing support',
-      categories: ['research', 'editing', 'formatting', 'proposals', 'business', 'career'],
-      bio: 'Send a short description of your project and get a written quote before any work begins.',
-      available: true
-    }
-  ];
 
   var CATEGORY_LABELS = {
     research: 'Research support',
@@ -24,73 +15,93 @@
     career: 'Resumes & CVs'
   };
 
+  var WRITERS = [
+    {
+      name: 'Lesse',
+      headline: 'Writing, research and editing support',
+      categories: ['research', 'editing', 'formatting', 'proposals', 'business', 'career'],
+      bio: 'Send a short description of your project and get a written quote before any work begins.',
+      avatar: 'assets/img/avatar-lesse.svg',
+      live: true
+    }
+  ];
+
+  // Reserved slots 2 to 10
+  for (var i = 2; i <= 10; i++) {
+    WRITERS.push({
+      name: 'Writer profile coming soon',
+      headline: 'Details to be added',
+      categories: [],
+      bio: 'This space is reserved for a writer who has agreed to be listed.',
+      avatar: 'assets/img/avatar-placeholder.svg',
+      live: false
+    });
+  }
+
   var grid = document.getElementById('writer-grid');
   var filters = document.getElementById('filters');
   var count = document.getElementById('writer-count');
   if (!grid || !filters) return;
 
+  function el(tag, className, text) {
+    var node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text) node.textContent = text;
+    return node;
+  }
+
   function makeFilterButton(key, label) {
-    var btn = document.createElement('button');
+    var btn = el('button', 'filter-btn', label);
     btn.type = 'button';
-    btn.className = 'filter-btn';
     btn.dataset.filter = key;
-    btn.textContent = label;
     btn.setAttribute('aria-pressed', key === 'all' ? 'true' : 'false');
     return btn;
   }
 
-  function makeTag(text, extraClass) {
-    var t = document.createElement('span');
-    t.className = 'tag' + (extraClass ? ' ' + extraClass : '');
-    t.textContent = text;
-    return t;
-  }
-
   function makeCard(writer) {
-    var card = document.createElement('article');
-    card.className = 'writer-card';
+    var card = el('article', 'writer-card' + (writer.live ? '' : ' writer-pending'));
 
-    var title = document.createElement('h3');
-    title.textContent = writer.name;
-    card.appendChild(title);
+    var head = el('div', 'writer-head');
+    var img = el('img', 'avatar');
+    img.src = writer.avatar;
+    img.alt = writer.live ? writer.name + ' avatar' : 'Placeholder avatar';
+    img.width = 64;
+    img.height = 64;
+    img.loading = 'lazy';
+    head.appendChild(img);
+    var titles = el('div');
+    titles.appendChild(el('h3', '', writer.name));
+    titles.appendChild(el('p', 'headline', writer.headline));
+    head.appendChild(titles);
+    card.appendChild(head);
 
-    var headline = document.createElement('p');
-    headline.className = 'headline';
-    headline.textContent = writer.headline;
-    card.appendChild(headline);
+    card.appendChild(el('p', 'bio', writer.bio));
 
-    var bio = document.createElement('p');
-    bio.className = 'bio';
-    bio.textContent = writer.bio;
-    card.appendChild(bio);
-
-    var tags = document.createElement('div');
-    tags.className = 'tags';
-    if (cfg.available && writer.available) {
-      tags.appendChild(makeTag('Available now', 'tag-available'));
+    var tags = el('div', 'tags');
+    if (writer.live && cfg.available) {
+      tags.appendChild(el('span', 'tag tag-available', 'Available now'));
+    }
+    if (!writer.live) {
+      tags.appendChild(el('span', 'tag tag-sample', 'Profile pending'));
     }
     writer.categories.forEach(function (key) {
-      if (CATEGORY_LABELS[key]) tags.appendChild(makeTag(CATEGORY_LABELS[key]));
+      if (CATEGORY_LABELS[key]) tags.appendChild(el('span', 'tag', CATEGORY_LABELS[key]));
     });
     card.appendChild(tags);
 
-    var actions = document.createElement('div');
-    actions.className = 'writer-actions';
-    if (cfg.whatsappNumber) {
-      var chat = document.createElement('button');
+    if (writer.live) {
+      var actions = el('div', 'writer-actions');
+      var chat = el('button', 'btn btn-small', 'Chat now');
       chat.type = 'button';
-      chat.className = 'btn btn-small';
       chat.setAttribute('data-open-chat', '');
-      chat.textContent = 'Chat now';
       actions.appendChild(chat);
+      if (cfg.email) {
+        var mail = el('a', '', 'Email');
+        mail.href = 'mailto:' + cfg.email;
+        actions.appendChild(mail);
+      }
+      card.appendChild(actions);
     }
-    if (cfg.email) {
-      var mail = document.createElement('a');
-      mail.href = 'mailto:' + cfg.email;
-      mail.textContent = 'Email';
-      actions.appendChild(mail);
-    }
-    card.appendChild(actions);
 
     return card;
   }
@@ -102,11 +113,10 @@
     grid.innerHTML = '';
     list.forEach(function (w) { grid.appendChild(makeCard(w)); });
     if (count) {
-      count.textContent = list.length + (list.length === 1 ? ' writer' : ' writers');
+      count.textContent = list.length + (list.length === 1 ? ' profile' : ' profiles');
     }
   }
 
-  // Build filter buttons
   filters.appendChild(makeFilterButton('all', 'All'));
   Object.keys(CATEGORY_LABELS).forEach(function (key) {
     filters.appendChild(makeFilterButton(key, CATEGORY_LABELS[key]));

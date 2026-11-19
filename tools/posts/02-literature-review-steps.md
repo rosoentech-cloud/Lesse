@@ -1,0 +1,35 @@
+---
+title: How to Write a Literature Review, Step by Step
+description: Learn the steps for writing a literature review, from choosing a focus and sorting sources to organizing themes and showing gaps in existing research.
+category: Research
+date: 2026-09-18
+---
+
+A literature review does not list every source you read. It maps what is known about a topic, shows how the research fits together, and identifies what is still missing. Your review should lead to your own research question.
+
+## Step 1: Define your focus
+
+Start with a narrow question. "Social media and mental health" is too broad for most assignments. "How do Instagram use patterns relate to body image among first-year university students?" gives you a manageable set of sources.
+
+## Step 2: Find and record sources
+
+Search your library database and Google Scholar, then follow the reference lists of the most relevant articles. Keep a simple record for each source: the citation, the research question, the method, the main finding, and one sentence on how it relates to your topic.
+
+## Step 3: Group sources by theme
+
+Do not organize your review by author. Look for patterns across your notes. Themes might be a shared method, a disagreement about cause, or a population that has been studied less often.
+
+## Step 4: Show how the sources relate
+
+For each theme, write a paragraph that compares sources. Say where they agree, where they disagree, and why. Avoid strings of summaries such as "Smith found X. Jones found Y."
+
+## Step 5: Identify the gap
+
+End the review by stating what the research has not yet answered. This gap is the reason your own study or argument is needed.
+
+## Checklist
+
+- Each paragraph has a clear theme.
+- Sources are compared, not just described.
+- Every claim is supported by a source you have actually read.
+- The review ends with a gap that leads into your research question.
